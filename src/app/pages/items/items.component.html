@@ -1,0 +1,171 @@
+<div>
+    <div class="text-center">
+        <h1>
+            DAFTAR BARANG PT. ANGULAR CADOT
+        </h1>
+    </div>
+    <div class="mb-2" align="right">
+        <button class="btn btn-primary" (click)="openModalAdd(modalAdd)">
+            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-cart-plus-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1H.5zM4 14a1 1 0 1 1 2 0 1 1 0 0 1-2 0zm7 0a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM9 5.5a.5.5 0 0 0-1 0V7H6.5a.5.5 0 0 0 0 1H8v1.5a.5.5 0 0 0 1 0V8h1.5a.5.5 0 0 0 0-1H9V5.5z"/>
+              </svg> 
+            Tambah Barang</button>
+        <br>
+    </div>
+    <table class="table table-hover table-striped   ">
+        <thead class="thead-dark">
+            <tr>
+                <th>ID</th>
+                <th>Nama Barang</th>
+                <th>Kategori</th>
+                <th>Tanggal Kadaluarsa</th>
+                <th class="text-center">Aksi</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of items">
+                <td>{{item.uuid}}</td>
+                <td>{{item.name}}</td>
+                <td>{{item.typeItem}}</td>
+                <td>{{item.expiredDate * 1000 | date:'dd MMMM yyyy'}}</td>
+                <td class="text-center">
+                    <button class="btn btn-success mr-2" (click)="openModalEdit(modalEdit, item)">
+                        
+                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                            <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                          </svg>
+                        
+                        Edit</button>
+
+                    <button class="btn btn-danger mr-2" (click)="openModalEdit(modalDelete, item)">
+                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0v-7z"/>
+                          </svg>
+                        Delete</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+
+<ng-template #modalEdit let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title" id="editProfileLabel">Edit Barang</h5>
+        <button type="button" class="close" (click)="modal.dismiss()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <div class="modal-body">
+
+        <div class="form-group row">
+            <label for="name" class="col-sm-4 col-form-label">Nama Barang</label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" id="name" [(ngModel)]="editItem.name">
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-4 col-form-label" for="exampleFormControlSelect1">Example select</label>
+            <div class="col-sm-8">
+                <select class="form-control" id="exampleFormControlSelect1" [(ngModel)]="editItem.typeItem">
+                    <option>Dapur</option>
+                    <option>Elektronik</option>
+                    <option>Buku</option>
+                    <option>Komputer</option>
+                    <option>Fashion</option>
+                </select>
+            </div>
+
+        </div>
+
+
+        <div class="form-group row">
+            <label for="username" class="col-sm-4 col-form-label">Kadaluarsa</label>
+            <div class="col-sm-8">
+                <div class="form-group">
+                    <div class="input-group">
+                      <input class="form-control" placeholder="yyyy-mm-dd"
+                             name="dp" ngbDatepicker #d="ngbDatepicker" (click)="d.toggle()" [(ngModel)]="dpick">
+                      <div class="input-group-append">
+                        <button class="btn btn-outline-secondary calendar fa fa-calendar" (click)="d.toggle()" type="button"></button>
+                      </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Close</button>
+            <button class="btn btn-primary" (click)="updateItem()">Save changes</button>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #modalAdd let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title" id="editProfileLabel">Tambah Barang</h5>
+        <button type="button" class="close" (click)="modal.dismiss()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <div class="modal-body">
+
+        <div class="form-group row">
+            <label for="name" class="col-sm-4 col-form-label">Nama Barang</label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" id="name" [(ngModel)]="addItem.name">
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-4 col-form-label" for="exampleFormControlSelect1">Example select</label>
+            <div class="col-sm-8">
+                <select class="form-control" id="exampleFormControlSelect1" [(ngModel)]="addItem.typeItem">
+                    <option>Dapur</option>
+                    <option>Elektronik</option>
+                    <option>Buku</option>
+                    <option>Komputer</option>
+                    <option>Fashion</option>
+                </select>
+            </div>
+
+        </div>
+
+        <div class="form-group row">
+            <label for="username" class="col-sm-4 col-form-label">Tanggal Kadaluarsa</label>
+            <div class="col-sm-8">
+                <input type="date" class="form-control" id="expiredDate" [(ngModel)]="dpick">
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Close</button>
+            <button class="btn btn-primary" (click)="saveItem()">Save changes</button>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #modalDelete let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title" id="editProfileLabel">Hapus Barang</h5>
+        <button type="button" class="close" (click)="modal.dismiss()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <div class="modal-body">
+
+        <div>
+            <h4>Apakah anda yakin menghapus?</h4>
+        </div>
+
+        <div class="modal-footer">
+            <button class="btn btn-danger" (click)="deleteItem()">DELETE</button>
+            <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Close</button>
+
+        </div>
+    </div>
+</ng-template>
